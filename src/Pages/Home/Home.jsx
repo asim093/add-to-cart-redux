@@ -3,8 +3,10 @@ import Usefetch from '../../CustomHooks/Usefetch';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
+    // Fetch data immediately upon component mount
     const { Isloading, Isdata } = Usefetch('https://fakestoreapi.com/products');
 
+    // Show loading spinner while data is being fetched
     if (Isloading) {
         return (
             <div className="spinner">
