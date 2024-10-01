@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Usefetch from '../../CustomHooks/Usefetch';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
     const { Isloading, Isdata } = Usefetch('https://fakestoreapi.com/products');
-
-    useEffect(() => {
-        
-    }, []); 
 
     if (Isloading) {
         return (
