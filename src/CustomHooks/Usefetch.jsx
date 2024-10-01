@@ -1,27 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react';
 
-const Usefetch = (Url) => {
-    const [Isdata, Setdata] = useState([]);
-    const [Isloading, Setloading] = useState(false);
-
-    const getdata = async () => {
-        Setloading(true);
-        try {
-            const res = await fetch(Url);
-            const Apidata = await res.json();
-            Setdata(Apidata);
-            Setloading(false);
-        } catch (error) {
-            Setloading(false)
-            console.log(error)
-        }
-    }
+const Usefetch = (url) => {
+    const [Isdata, setIsdata] = useState([]);
+    const [Isloading, setIsloading] = useState(true);
 
     useEffect(() => {
-        getdata();
-    }, []);
+        const fetchData = async () => {
+            setIsloading(true); 
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json();
+                setIsdata(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setIsdata([]); 
+            } finally {
+                setIsloading(false); 
+            }
+        };
 
-    return ({Isdata , Isloading })
-}
+        fetchData(); 
 
-export default Usefetch
+        return () => {
+            setIsdata([]); 
+        };
+    }, [url]); 
+
+    return { Isdata, Isloading };
+};
+
+export default Usefetch;
